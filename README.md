@@ -4,6 +4,8 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
+
+
 <p align="center">
   <img width=220 height=200 src="https://i.loli.net/2020/12/25/sUSe4MGYXq2zoZd.png" alt="Python GUIs for Humans"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <img width=220 height=200 src="https://i.loli.net/2020/12/25/G3tmYbcXFDNxBP4.png" alt="Python GUIs for Humans">
@@ -33,6 +35,8 @@
   - [2️⃣ 本地没有表情包，想要爬取点表情包上传到云端识别搜索](#%E2%83%A3-%E6%9C%AC%E5%9C%B0%E6%B2%A1%E6%9C%89%E8%A1%A8%E6%83%85%E5%8C%85%E6%83%B3%E8%A6%81%E7%88%AC%E5%8F%96%E7%82%B9%E8%A1%A8%E6%83%85%E5%8C%85%E4%B8%8A%E4%BC%A0%E5%88%B0%E4%BA%91%E7%AB%AF%E8%AF%86%E5%88%AB%E6%90%9C%E7%B4%A2)
   - [3️⃣ 当你本地有很多表情包图片，想要识别时](#%E2%83%A3-%E5%BD%93%E4%BD%A0%E6%9C%AC%E5%9C%B0%E6%9C%89%E5%BE%88%E5%A4%9A%E8%A1%A8%E6%83%85%E5%8C%85%E5%9B%BE%E7%89%87%E6%83%B3%E8%A6%81%E8%AF%86%E5%88%AB%E6%97%B6)
   - [4️⃣ 觉得云端搜索太慢？直接下载图片到本地，然后云端识别，永久地在本地快速搜索表情包](#%E2%83%A3-%E8%A7%89%E5%BE%97%E4%BA%91%E7%AB%AF%E6%90%9C%E7%B4%A2%E5%A4%AA%E6%85%A2%E7%9B%B4%E6%8E%A5%E4%B8%8B%E8%BD%BD%E5%9B%BE%E7%89%87%E5%88%B0%E6%9C%AC%E5%9C%B0%E7%84%B6%E5%90%8E%E4%BA%91%E7%AB%AF%E8%AF%86%E5%88%AB%E6%B0%B8%E4%B9%85%E5%9C%B0%E5%9C%A8%E6%9C%AC%E5%9C%B0%E5%BF%AB%E9%80%9F%E6%90%9C%E7%B4%A2%E8%A1%A8%E6%83%85%E5%8C%85)
+- [🍉 功能一览](#-%E5%8A%9F%E8%83%BD%E4%B8%80%E8%A7%88)
+  - [⛄ TODO](#-todo)
 - [🕹️ 技术细节](#-%E6%8A%80%E6%9C%AF%E7%BB%86%E8%8A%82)
 - [☄️ Tips](#-tips)
   - [𝓒𝓱𝓻𝓲𝓼𝓽𝓶𝓪𝓼 𝓰𝓲𝓯𝓽 & 𝓰𝓸𝓸𝓭 𝓷𝓲𝓰𝓱𝓽！](#%F0%9D%93%92%F0%9D%93%B1%F0%9D%93%BB%F0%9D%93%B2%F0%9D%93%BC%F0%9D%93%BD%F0%9D%93%B6%F0%9D%93%AA%F0%9D%93%BC-%F0%9D%93%B0%F0%9D%93%B2%F0%9D%93%AF%F0%9D%93%BD--%F0%9D%93%B0%F0%9D%93%B8%F0%9D%93%B8%F0%9D%93%AD-%F0%9D%93%B7%F0%9D%93%B2%F0%9D%93%B0%F0%9D%93%B1%F0%9D%93%BD)
@@ -95,7 +99,14 @@
 
 # 🍉 功能一览
 
-- [x] dsa 
+- [x] 云端存储表情包
+- [x] 识别表情包文字并搜索
+- [x] 爬取知乎表情包
+- [x] 识别本地表情包
+## ⛄ TODO
+- [ ] 表情包表情语义识别
+- [ ] 情感分析搜索引擎
+- [ ] 表情包生成，如：熊猫头表情包生成
 # 🕹️ 技术细节
 识别框架使用的[`PaddleOCR`](https://github.com/PaddlePaddle/PaddleOCR)，`GUI`使用的[`PySimpleGUI`](https://github.com/PySimpleGUI/PySimpleGUI)，具体请查看：[`main.py`](https://github.com/ExcaliburEX/AIStickerSearcher/blob/main/main.py)，待更新。
 
