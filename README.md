@@ -107,7 +107,10 @@
 - 点击上方的`指针选项`，在下面的`自动将指针移动到对话框中的默认按钮`前面打钩
 
 <p align="center">
-  <img src="https://i.loli.net/2020/12/25/fYrLBJTwECpxnGy.gif" width="600px">
+  <img src="https://i.loli.net/2020/12/26/VNDSPkpUCdKQnij.png" width="600px">
+  
+  <img src="https://i.loli.net/2020/12/26/KcrFmdB7ZEaTP8Q.png" width="600px">
+
 </p>
 
 
