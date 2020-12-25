@@ -47,7 +47,7 @@
 
 
 <p align="center">
-<a href= 'https://github.com/ExcaliburEX/AIStickerSearcher/releases/tag/V1.0'><img src="https://img.shields.io/badge/AIStickerSearcher-V1.0-blue?color=ff69b4&style=for-the-badge" alt="img" width="200px"></a>
+<a href= 'https://github.com/ExcaliburEX/AIStickerSearcher/releases/download/V1.0/AIStickerSearcherV1.0.exe'><img src="https://img.shields.io/badge/AIStickerSearcher-V1.0-blue?color=ff69b4&style=for-the-badge" alt="img" width="200px"></a>
 </p>
 
 <p align="center">
