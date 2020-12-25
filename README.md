@@ -9,10 +9,13 @@
 
 [![HitCount](http://hits.dwyl.com/ExcaliburEX/AIStickerSearcher.svg)](http://hits.dwyl.com/ExcaliburEX/AIStickerSearcher)<a href=""><img src="https://img.shields.io/github/commit-activity/m/ExcaliburEX/AIStickerSearcher.svg?color=blue&style=for-the-badge" alt="img"  width="260px"></a><a href=""><img src="https://img.shields.io/github/last-commit/ExcaliburEX/AIStickerSearcher.svg?color=blue&style=for-the-badge" alt="img" width="200px"></a><a href=""><img src="http://ForTheBadge.com/images/badges/makes-people-smile.svg" alt="img" width="190px"></a><a href=""><img src="https://img.shields.io/github/stars/ExcaliburEX/AIStickerSearcher.svg?style=social&label=Star&maxAge=2592000" alt="img" width="140x"></a>
 [![GitHub Issues](https://img.shields.io/github/issues/ExcaliburEX/AIStickerSearcher.svg)](https://github.com/ExcaliburEX/AIStickerSearcher)[![GitHub Pull Requests](https://img.shields.io/github/issues-pr/ExcaliburEX/AIStickerSearcher.svg)](https://github.com/ExcaliburEX/AIStickerSearcher/pulls)![forks](https://img.shields.io/github/forks/ExcaliburEX/AIStickerSearcher)![stars](	https://img.shields.io/github/stars/ExcaliburEX/AIStickerSearcher)![repo size](https://img.shields.io/github/repo-size/ExcaliburEX/AIStickerSearcher)[![License](https://img.shields.io/badge/license-MIT-blue.svg)](/LICENSE)
+
+<img alt="GitHub release (latest by date)" src="https://img.shields.io/github/downloads/ExcaliburEX/AIStickerSearcher/latest/total?color=important&style=for-the-badge">
+
 </div>
 
 <p align="center">
-  <img src="https://github-readme-stats.vercel.app/api/?username=ExcaliburEX&bg_color=3e7bac&title_color=ffdd55&icon_color=ffdd55&text_color=ffdd55&show_icons=true&count_private=true" href= 'https://github.com/ExcaliburEX/AIStickerSearcher/releases/tag/V1.0'>
+  <img src="https://github-readme-stats.vercel.app/api/?username=ExcaliburEX&bg_color=3e7bac&title_color=ffdd55&icon_color=ffdd55&text_color=ffdd55&show_icons=true&count_private=true">
 </p>
 
 # 🌃 最新版本
@@ -20,7 +23,7 @@
 
 
 <p align="center">
-<a href=""><img src="https://img.shields.io/badge/AIStickerSearcher-V1.0-blue?color=ff69b4&style=for-the-badge" alt="img" width="200px"></a>
+<a href= 'https://github.com/ExcaliburEX/AIStickerSearcher/releases/tag/V1.0'><img src="https://img.shields.io/badge/AIStickerSearcher-V1.0-blue?color=ff69b4&style=for-the-badge" alt="img" width="200px"></a>
 </p>
 
 ---
