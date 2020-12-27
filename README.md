@@ -17,7 +17,9 @@
 
 <div align="center">
 
-[![HitCount](http://hits.dwyl.com/ExcaliburEX/AIStickerSearcher.svg)](http://hits.dwyl.com/ExcaliburEX/AIStickerSearcher)<a href=""><img src="https://img.shields.io/github/commit-activity/m/ExcaliburEX/AIStickerSearcher.svg?color=blue&style=for-the-badge" alt="img"  width="260px"></a><a href=""><img src="https://img.shields.io/github/last-commit/ExcaliburEX/AIStickerSearcher.svg?color=blue&style=for-the-badge" alt="img" width="200px"></a><a href=""><img src="http://ForTheBadge.com/images/badges/makes-people-smile.svg" alt="img" width="190px"></a><a href=""><img src="https://img.shields.io/github/stars/ExcaliburEX/AIStickerSearcher.svg?style=social&label=Star&maxAge=2592000" alt="img" width="140x"></a>
+[![HitCount](http://hits.dwyl.com/ExcaliburEX/AIStickerSearcher.svg)](http://hits.dwyl.com/ExcaliburEX/AIStickerSearcher)<a href=""><img src="https://img.shields.io/github/commit-activity/m/ExcaliburEX/AIStickerSearcher.svg?color=blue&style=for-the-badge" alt="img"  width="260px"></a><a href=""><img src="https://img.shields.io/github/last-commit/ExcaliburEX/AIStickerSearcher.svg?color=blue&style=for-the-badge" alt="img" width="200px"></a><a href=""><img src="http://ForTheBadge.com/images/badges/makes-people-smile.svg" alt="img" width="190px"></a>
+<a href=""><img src="https://img.shields.io/github/stars/ExcaliburEX/AIStickerSearcher.svg?style=social&label=Star&maxAge=2592000" alt="img" width="140x"></a>
+
 [![GitHub Issues](https://img.shields.io/github/issues/ExcaliburEX/AIStickerSearcher.svg)](https://github.com/ExcaliburEX/AIStickerSearcher)[![GitHub Pull Requests](https://img.shields.io/github/issues-pr/ExcaliburEX/AIStickerSearcher.svg)](https://github.com/ExcaliburEX/AIStickerSearcher/pulls)![forks](https://img.shields.io/github/forks/ExcaliburEX/AIStickerSearcher)![stars](	https://img.shields.io/github/stars/ExcaliburEX/AIStickerSearcher)![repo size](https://img.shields.io/github/repo-size/ExcaliburEX/AIStickerSearcher)[![License](https://img.shields.io/badge/license-MIT-blue.svg)](/LICENSE)
 
 <img alt="GitHub release (latest by date)" src="https://img.shields.io/github/downloads/ExcaliburEX/AIStickerSearcher/latest/total?color=important&style=for-the-badge">
@@ -45,20 +47,27 @@
 - [🍉 功能一览](#-%E5%8A%9F%E8%83%BD%E4%B8%80%E8%A7%88)
   - [⛄ TODO](#-todo)
 - [🕹️ 技术细节](#-%E6%8A%80%E6%9C%AF%E7%BB%86%E8%8A%82)
+- [👩🏻‍💻 本地开发](#%E2%80%8D-%E6%9C%AC%E5%9C%B0%E5%BC%80%E5%8F%91)
 - [☄️ Tips](#-tips)
   - [𝓒𝓱𝓻𝓲𝓼𝓽𝓶𝓪𝓼 𝓰𝓲𝓯𝓽 & 𝓰𝓸𝓸𝓭 𝓷𝓲𝓰𝓱𝓽！](#%F0%9D%93%92%F0%9D%93%B1%F0%9D%93%BB%F0%9D%93%B2%F0%9D%93%BC%F0%9D%93%BD%F0%9D%93%B6%F0%9D%93%AA%F0%9D%93%BC-%F0%9D%93%B0%F0%9D%93%B2%F0%9D%93%AF%F0%9D%93%BD--%F0%9D%93%B0%F0%9D%93%B8%F0%9D%93%B8%F0%9D%93%AD-%F0%9D%93%B7%F0%9D%93%B2%F0%9D%93%B0%F0%9D%93%B1%F0%9D%93%BD)
 
 # 🌃 最新版本
 
-
-
+<b align="left">
+点击图标下载点击图标下载<font color="red">V1.0</font>版本：
+</b>
 <p align="center">
 <a href= 'https://github.com/ExcaliburEX/AIStickerSearcher/releases/download/V1.0/AIStickerSearcherV1.0.exe'><img src="https://img.shields.io/badge/AIStickerSearcher-V1.0-blue?color=ff69b4&style=for-the-badge" alt="img" width="200px"></a>
 </p>
 
+<b align="left">
+点击图标下载<font color="#0000FF">V1.0</font>版
+(1366*768分辨率PC机优化版)：
+</b>
 <p align="center">
-点击图标即可下载软件~
+<a href= 'https://github.com/ExcaliburEX/AIStickerSearcher/releases/download/V1.0-720p/AIStickerSearcherV1.0_720p.exe'><img src="https://img.shields.io/badge/AIStickerSearcher-V1.0-blue?color=orange&style=for-the-badge" alt="img" width="200px"></a>
 </p>
+
 
 ---
 
@@ -134,6 +143,15 @@
 # 🕹️ 技术细节
 识别框架使用的[`PaddleOCR`](https://github.com/PaddlePaddle/PaddleOCR)，`GUI`使用的[`PySimpleGUI`](https://github.com/PySimpleGUI/PySimpleGUI)，具体请查看：[`main.py`](https://github.com/ExcaliburEX/AIStickerSearcher/blob/main/main.py)，待更新。
 
+# 👩🏻‍💻 本地开发
+
+需要 `Python 3.7`
+
+运行：
+```Python
+pip install -r requirements.txt
+```
+然后打开 [`main.py`](https://github.com/ExcaliburEX/AIStickerSearcher/blob/main/main.py).
 # ☄️ Tips
 ## 𝓒𝓱𝓻𝓲𝓼𝓽𝓶𝓪𝓼 𝓰𝓲𝓯𝓽 & 𝓰𝓸𝓸𝓭 𝓷𝓲𝓰𝓱𝓽！
 

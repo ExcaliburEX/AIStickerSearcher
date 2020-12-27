@@ -1,22 +1,24 @@
-from qcloud_cos import CosS3Client
-from qcloud_cos import CosConfig
-from lxml import etree
-import pandas as pd
-from base64 import b64decode
-from PIL import Image
-import win32clipboard as clip
-import win32con
-from io import BytesIO
-import io
-import pymysql
-import time
-from time import sleep
-import threading
-import os
-import json
-import PySimpleGUI as sg
-import base64
 import requests
+import base64
+import PySimpleGUI as sg
+import json
+import os
+import threading
+from time import sleep
+import time
+import pymysql
+import io
+from io import BytesIO
+import win32con
+import win32clipboard as clip
+from PIL import Image
+from base64 import b64decode
+import pandas as pd
+from lxml import etree
+from qcloud_cos import CosConfig
+from qcloud_cos import CosS3Client
+import warnings
+warnings.filterwarnings("ignore")
 
 
 # 知乎图片爬取模块
@@ -52,7 +54,8 @@ class User(object):
                 response = self.session.get(url=self.currentBrowseAnswer.url)
                 break
             except:
-                print(time.strftime("[%Y-%m-%d %H:%M:%S]: ", time.localtime()), "获取回答页面超时，有可能IP被知乎禁了，等待30秒再继续...")
+                print(time.strftime(
+                    "[%Y-%m-%d %H:%M:%S]: ", time.localtime()), "获取回答页面超时，有可能IP被知乎禁了，等待30秒再继续...")
                 sleep(30)
         return response
 
@@ -87,7 +90,7 @@ class User(object):
                 cnt += 1
                 continue
             print(time.strftime(
-                "[%Y-%m-%d %H:%M:%S]: ", time.localtime()), '正在下载第 %d / %d 张：%s' % (cnt+1, len(self.currentBrowseAnswer.picURLList),self.currentBrowseAnswer.id + "@" + filename))
+                "[%Y-%m-%d %H:%M:%S]: ", time.localtime()), '正在下载第 %d / %d 张：%s' % (cnt+1, len(self.currentBrowseAnswer.picURLList), self.currentBrowseAnswer.id + "@" + filename))
             self.downloadPic(url, path)
             cnt += 1
             window['-ZHIHUPROGRESS-'].update_bar(100 /
@@ -104,7 +107,8 @@ class User(object):
                 pic = self.session.get(url).content
                 break
             except:
-                print(time.strftime("[%Y-%m-%d %H:%M:%S]: ", time.localtime()), "获取表情包：%s 超时，有可能IP被知乎禁了，等待30秒再继续..."%(filename))
+                print(time.strftime("[%Y-%m-%d %H:%M:%S]: ", time.localtime()),
+                      "获取表情包：%s 超时，有可能IP被知乎禁了，等待30秒再继续..." % (filename))
                 sleep(30)
         with open(path + self.currentBrowseAnswer.id + "@" + filename, "wb") as f:
             f.write(pic)
@@ -112,52 +116,105 @@ class User(object):
 # 知乎图片爬取模块
 
 
+def OnlineUserNumber(window):
+    old = []
+    sleep(5)
+    while True:
+        try:
+            while True:
+                try:
+                    conn = pymysql.connect(
+                        '47.96.189.80', user="root", passwd="189154", db="EmojiPic")
+                    break
+                except:
+                    print(time.strftime(
+                        "[%Y-%m-%d %H:%M:%S]: ", time.localtime()), '获取用户数失败，重连数据库中...')
+                    try:
+                        conn.close()
+                    except:
+                        pass
+            cursor = conn.cursor()
+            cursor.execute(
+                "select  SUBSTRING_INDEX(host,':',1)  as  ip  ,  count(*)  from  information_schema.processlist  group  by  ip;")
+            res = cursor.fetchall()
+            number = len(res)
+            # if number < res[0]:
+            #     print(time.strftime(
+            #         "[%Y-%m-%d %H:%M:%S]: ", time.localtime()), '数据库表情包数量增加了：%d' % (res[0] - number))
+            # elif number > res[0]:
+            #     print(time.strftime(
+            #         "[%Y-%m-%d %H:%M:%S]: ", time.localtime()), '数据库表情包数量减少了：%d' % (number - res[0]))
+            ip = [u[0] for u in res]
+            for user in ip:
+                if user not in old:
+                    print(time.strftime(
+                        "[%Y-%m-%d %H:%M:%S]: ", time.localtime()), '新IP：%s 在线了。' % (user))
+                    old.append(user)
+            window['-USERNUM-'].update(number)
+            cursor.close()
+            conn.close()
+            if flag == 0:
+                break
+            sleep(2)
+        except:
+            pass
+
+
 def UpdateEmojiNumber(window):
     while True:
         try:
-            conn = pymysql.connect('47.96.189.80', user="root", passwd="189154", db="EmojiPic")
-            break
-        except:
-            print(time.strftime("[%Y-%m-%d %H:%M:%S]: ", time.localtime()), '重连数据库中...')
-            try:
-                conn.close()
-            except:
-                pass
-
-    cursor = conn.cursor()
-    cursor.execute("SELECT count(*) FROM EMOJITEXT")
-    res = cursor.fetchone()
-    number = res[0]
-    # window['-EMOJINUM-'].update(res[0])
-    cursor.close()
-    conn.close()
-    sleep(5)
-    while True:
-        while True:
-            try:
-                conn = pymysql.connect('47.96.189.80', user="root", passwd="189154", db="EmojiPic")
-                break
-            except:
-                print(time.strftime("[%Y-%m-%d %H:%M:%S]: ", time.localtime()), '重连数据库中...')
+            while True:
                 try:
-                    conn.close()
+                    conn = pymysql.connect(
+                        '47.96.189.80', user="root", passwd="189154", db="EmojiPic")
+                    break
                 except:
-                    pass
+                    print(time.strftime(
+                        "[%Y-%m-%d %H:%M:%S]: ", time.localtime()), '重连数据库中...')
+                    try:
+                        conn.close()
+                    except:
+                        pass
 
-        cursor = conn.cursor()
-        cursor.execute("SELECT count(*) FROM EMOJITEXT")
-        res = cursor.fetchone()
-        if number < res[0]:
-            print(time.strftime(
-                "[%Y-%m-%d %H:%M:%S]: ", time.localtime()), '数据库表情包数量增加了：%d' % (res[0] - number))
-        elif number > res[0]:
-            print(time.strftime(
-                "[%Y-%m-%d %H:%M:%S]: ", time.localtime()), '数据库表情包数量减少了：%d' % (number - res[0]))
-        number = res[0]
-        window['-EMOJINUM-'].update(res[0])
-        cursor.close()
-        conn.close()
-        sleep(10)
+            cursor = conn.cursor()
+            cursor.execute("SELECT count(*) FROM EMOJITEXT")
+            res = cursor.fetchone()
+            number = res[0]
+            # window['-EMOJINUM-'].update(res[0])
+            cursor.close()
+            conn.close()
+            sleep(5)
+            while True:
+                try:
+                    conn = pymysql.connect(
+                        '47.96.189.80', user="root", passwd="189154", db="EmojiPic")
+                    break
+                except:
+                    print(time.strftime(
+                        "[%Y-%m-%d %H:%M:%S]: ", time.localtime()), '重连数据库中...')
+                    try:
+                        conn.close()
+                    except:
+                        pass
+
+            cursor = conn.cursor()
+            cursor.execute("SELECT count(*) FROM EMOJITEXT")
+            res = cursor.fetchone()
+            if number < res[0]:
+                print(time.strftime(
+                    "[%Y-%m-%d %H:%M:%S]: ", time.localtime()), '数据库表情包数量增加了：%d' % (res[0] - number))
+            elif number > res[0]:
+                print(time.strftime(
+                    "[%Y-%m-%d %H:%M:%S]: ", time.localtime()), '数据库表情包数量减少了：%d' % (number - res[0]))
+            number = res[0]
+            window['-EMOJINUM-'].update(res[0])
+            cursor.close()
+            conn.close()
+            if flag == 0:
+                break
+            sleep(10)
+        except:
+            pass
 
 
 def cv2_to_base64(image):
@@ -174,7 +231,8 @@ def COSUploadAndRecognize(window, path):
     secret_key = 'AJFvMYWFm4T1KNCmfIfqoXO3YooY3C8C'     # 替换为用户的secret_key
     region = 'ap-shanghai'    # 替换为地区参https://www.qcloud.com/document/product/436/6224的地简称
     token = None               # 使用临时秘钥需要传入Token，默认为空,可不填
-    config = CosConfig(Region=region, SecretId=secret_id, SecretKey=secret_key, Token=token)  # 获取配置对象
+    config = CosConfig(Region=region, SecretId=secret_id,
+                       SecretKey=secret_key, Token=token)  # 获取配置对象
     client = CosS3Client(config)
 
     pics = os.listdir(path)
@@ -187,7 +245,8 @@ def COSUploadAndRecognize(window, path):
                 Exist.append(line.replace("\n", ""))
             f.close()
 
-    print(time.strftime("[%Y-%m-%d %H:%M:%S]: ", time.localtime()), "目录：“%s” 一共有 %d 个文件！" % (path,len(pics)))
+    print(time.strftime("[%Y-%m-%d %H:%M:%S]: ", time.localtime()),
+          "目录：“%s” 一共有 %d 个文件！" % (path, len(pics)))
     url_list = []
     i = 1
     error_pic = []
@@ -198,14 +257,17 @@ def COSUploadAndRecognize(window, path):
     try:
         pics = [pic for pic in pics if pic.split('.')[-1] in img_end]
     except:
-        print(time.strftime("[%Y-%m-%d %H:%M:%S]: ", time.localtime()),"目录：%s 含有没有后缀的文件，直接过滤掉！"%(path))
+        print(time.strftime("[%Y-%m-%d %H:%M:%S]: ",
+                            time.localtime()), "目录：%s 含有没有后缀的文件，直接过滤掉！" % (path))
         pics = [pic for pic in pics if '.' in pic]
         pics = [pic for pic in pics if pic.split('.')[-1] in img_end]
-    print(time.strftime("[%Y-%m-%d %H:%M:%S]: ", time.localtime()), "过滤掉非图片文件后，一共有 %d 个图片！" % (len(pics))) 
+    print(time.strftime("[%Y-%m-%d %H:%M:%S]: ",
+                        time.localtime()), "过滤掉非图片文件后，一共有 %d 个图片！" % (len(pics)))
     pic_num = len(pics)
     for pic in pics:
         if pic not in Exist:
-            print(time.strftime("[%Y-%m-%d %H:%M:%S]: ", time.localtime()), '正在上传:第 %d / %d 张图片：%s' % (i,len(pics),pic))
+            print(time.strftime("[%Y-%m-%d %H:%M:%S]: ", time.localtime()),
+                  '正在上传:第 %d / %d 张图片：%s' % (i, len(pics), pic))
             upload_cnt = 0
             while True:
                 try:
@@ -219,7 +281,8 @@ def COSUploadAndRecognize(window, path):
                     url_list.append(url + pic)
                     break
                 except:
-                    print(time.strftime("[%Y-%m-%d %H:%M:%S]: ", time.localtime()), '%s 上传出错，可能重复，等待10s，重新上传！第 %d 次' % (pic,upload_cnt+1))
+                    print(time.strftime("[%Y-%m-%d %H:%M:%S]: ", time.localtime()),
+                          '%s 上传出错，可能重复，等待10s，重新上传！第 %d 次' % (pic, upload_cnt+1))
                     upload_cnt += 1
                     if upload_cnt == 3:
                         break
@@ -230,7 +293,7 @@ def COSUploadAndRecognize(window, path):
             with open(path + 'history.txt', 'a+') as f:
                 f.writelines(pic)
                 f.writelines('\n')
-                f.close()            
+                f.close()
         else:
             print(time.strftime("[%Y-%m-%d %H:%M:%S]: ",
                                 time.localtime()), "正在上传:第 %d / %d 张图片：%s 已经上传过" % (i, len(pics), pic))
@@ -239,11 +302,9 @@ def COSUploadAndRecognize(window, path):
             i += 1
 
     elapse = time.time() - starttime
-    print(time.strftime("[%Y-%m-%d %H:%M:%S]: ", time.localtime()), "一共上传了 %d 张表情包！耗时：%.3fs" % (i-1,elapse))
+    print(time.strftime("[%Y-%m-%d %H:%M:%S]: ", time.localtime()),
+          "一共上传了 %d 张表情包！耗时：%.3fs" % (i-1, elapse))
 
-
-
-        
     #     file = {'smfile': open(path + pic, 'rb')}
     #     print(time.strftime("[%Y-%m-%d %H:%M:%S]: ", time.localtime()), '正在上传图片：%s' % (pic))
     #     while True:
@@ -253,7 +314,7 @@ def COSUploadAndRecognize(window, path):
     #         except:
     #             print(time.strftime("[%Y-%m-%d %H:%M:%S]: ", time.localtime()), '%s 上传超时，等待20s，重新上传！' % (pic))
     #             sleep(20)
-                
+
     #     window['-UPLOADPROGRESS-'].update_bar(100/pic_num * i)
     #     window['-UPLOADPROGRESS_NUM-'].update(str(i/pic_num * 100) + "%%")
     #     i += 1
@@ -291,7 +352,7 @@ def COSUploadAndRecognize(window, path):
         name = url.split('/')[-1]
         while True:
             try:
-                r = requests.get(url,timeout=15)
+                r = requests.get(url, timeout=15)
                 # if r.status_codes == 200:
                 break
             except:
@@ -312,18 +373,21 @@ def COSUploadAndRecognize(window, path):
         starttime = time.time()
         data = {'images': [cv2_to_base64(img)]}
         try:
-            r = requests.post(url=server_url, headers=server_headers, data=json.dumps(data),timeout=30)
+            r = requests.post(url=server_url, headers=server_headers,
+                              data=json.dumps(data), timeout=30)
         except:
-            print(time.strftime("[%Y-%m-%d %H:%M:%S]: ", time.localtime()), "%s 识别时，服务器长时间未响应！"%(name))
+            print(time.strftime("[%Y-%m-%d %H:%M:%S]: ",
+                                time.localtime()), "%s 识别时，服务器长时间未响应！" % (name))
             continue
         elapse = time.time() - starttime
         total_time += elapse
         print(time.strftime("[%Y-%m-%d %H:%M:%S]: ", time.localtime()),
-              "识别了 第 %d / %d 张图片： %s, 识别时间 %.3fs" % (cnt+1,actual_pic_num,name, elapse))
+              "识别了 第 %d / %d 张图片： %s, 识别时间 %.3fs" % (cnt+1, actual_pic_num, name, elapse))
         try:
             res = r.json()["results"][0]
         except:
-            print(time.strftime("[%Y-%m-%d %H:%M:%S]: ", time.localtime()), "%s 没有识别结果。"%(name))
+            print(time.strftime("[%Y-%m-%d %H:%M:%S]: ",
+                                time.localtime()), "%s 没有识别结果。" % (name))
             cnt += 1
             continue
         text = ''
@@ -334,10 +398,12 @@ def COSUploadAndRecognize(window, path):
         try:
             while True:
                 try:
-                    conn = pymysql.connect('47.96.189.80', user="root", passwd="189154", db="EmojiPic")
+                    conn = pymysql.connect(
+                        '47.96.189.80', user="root", passwd="189154", db="EmojiPic")
                     break
                 except:
-                    print(time.strftime("[%Y-%m-%d %H:%M:%S]: ", time.localtime()), '重连数据库中...')
+                    print(time.strftime(
+                        "[%Y-%m-%d %H:%M:%S]: ", time.localtime()), '重连数据库中...')
                     try:
                         conn.close()
                     except:
@@ -349,7 +415,8 @@ def COSUploadAndRecognize(window, path):
             conn.commit()
             conn.close()
         except:
-            print(time.strftime("[%Y-%m-%d %H:%M:%S]: ",time.localtime()), "图片已存在数据库，跳过: %s" % (name))
+            print(time.strftime("[%Y-%m-%d %H:%M:%S]: ",
+                                time.localtime()), "图片已存在数据库，跳过: %s" % (name))
             try:
                 conn.close()
             except:
@@ -365,7 +432,8 @@ def COSUploadAndRecognize(window, path):
               "总共识别时间: {}".format(float(total_time)))
     except:
         pass
-    print(time.strftime("[%Y-%m-%d %H:%M:%S]: ", time.localtime()), "总共识别了 %d 张表情包" % (cnt))
+    print(time.strftime("[%Y-%m-%d %H:%M:%S]: ",
+                        time.localtime()), "总共识别了 %d 张表情包" % (cnt))
 
 
 def CloudSearch(window, key):
@@ -374,10 +442,12 @@ def CloudSearch(window, key):
 
     while True:
         try:
-            conn = pymysql.connect('47.96.189.80', user="root", passwd="189154", db="EmojiPic")
+            conn = pymysql.connect(
+                '47.96.189.80', user="root", passwd="189154", db="EmojiPic")
             break
         except:
-            print(time.strftime("[%Y-%m-%d %H:%M:%S]: ", time.localtime()), '重连数据库中...')
+            print(time.strftime("[%Y-%m-%d %H:%M:%S]: ",
+                                time.localtime()), '重连数据库中...')
             try:
                 conn.close()
             except:
@@ -420,22 +490,25 @@ def CloudSearch(window, key):
     print(time.strftime("[%Y-%m-%d %H:%M:%S]: ", time.localtime()),
           "关键字：'%s' 云端一共找到 %d 张表情包！正在展示，速度与网速有关。" % (key, len(key_set)))
     if len(key_set) == 0:
-        print(time.strftime("[%Y-%m-%d %H:%M:%S]: ",time.localtime()), "赶紧上传点表情包吧，已经不够你秀的了！")
+        print(time.strftime("[%Y-%m-%d %H:%M:%S]: ",
+                            time.localtime()), "赶紧上传点表情包吧，已经不够你秀的了！")
         return
     cur.close()
     conn.close()
     cnt = 1
     starttime = time.time()
     for k in key_set:
-        print(time.strftime("[%Y-%m-%d %H:%M:%S]: ", time.localtime()),'正在展示第 %d / %d 张: %s ...'%(cnt,len(key_set),k.split('/')[-1]))
+        print(time.strftime("[%Y-%m-%d %H:%M:%S]: ", time.localtime()),
+              '正在展示第 %d / %d 张: %s ...' % (cnt, len(key_set), k.split('/')[-1]))
         try:
             while True:
                 try:
-                    r = requests.get(k,timeout=15)
+                    r = requests.get(k, timeout=15)
                     # if r.status_codes == 200:
                     break
                 except:
-                    print(time.strftime("[%Y-%m-%d %H:%M:%S]: ", time.localtime()), 'IP被SM.MS禁了，睡眠0.5分钟！')
+                    print(time.strftime(
+                        "[%Y-%m-%d %H:%M:%S]: ", time.localtime()), 'IP被SM.MS禁了，睡眠0.5分钟！')
                     sleep(20)
             image = Image.open(BytesIO(r.content))
             image = image.resize((250, 250))
@@ -443,18 +516,21 @@ def CloudSearch(window, key):
             image.save(buffered, format="PNG")
             img_str = base64.b64encode(buffered.getvalue())
         except:
-            print(time.strftime("[%Y-%m-%d %H:%M:%S]: ", time.localtime()),'由于某些原因，%s 已从网络端删除或者获取不到...'%(k))
+            print(time.strftime(
+                "[%Y-%m-%d %H:%M:%S]: ", time.localtime()), '由于某些原因，%s 已从网络端删除或者获取不到...' % (k))
             cnt += 1
             continue
         if cnt != 301:
             window['-IMG%s-' % (str(cnt))].update(data=img_str)
         else:
-            print(time.strftime("[%Y-%m-%d %H:%M:%S]: ", time.localtime()), "窗口只能展示300张，超出限制，剩下的等等吧...")
+            print(time.strftime("[%Y-%m-%d %H:%M:%S]: ",
+                                time.localtime()), "窗口只能展示300张，超出限制，剩下的等等吧...")
             break
         cnt += 1
     elapse = time.time() - starttime
     # print(time.strftime("[%Y-%m-%d %H:%M:%S]: ", time.localtime()),'一共耗时：%.3fs'%(elapse))
-    print(time.strftime("[%Y-%m-%d %H:%M:%S]: ", time.localtime()), "搜索结果展示完毕！实际展示了 %d 张表情包，展示搜索结果耗时：%.3fs" % (cnt - 1, elapse))
+    print(time.strftime("[%Y-%m-%d %H:%M:%S]: ", time.localtime()),
+          "搜索结果展示完毕！实际展示了 %d 张表情包，展示搜索结果耗时：%.3fs" % (cnt - 1, elapse))
 
 
 def DownloadAndUpdate(path, window):
@@ -471,10 +547,12 @@ def DownloadAndUpdate(path, window):
 
     while True:
         try:
-            conn = pymysql.connect('47.96.189.80', user="root", passwd="189154", db="EmojiPic")
+            conn = pymysql.connect(
+                '47.96.189.80', user="root", passwd="189154", db="EmojiPic")
             break
         except:
-            print(time.strftime("[%Y-%m-%d %H:%M:%S]: ", time.localtime()), '重连数据库中...')
+            print(time.strftime("[%Y-%m-%d %H:%M:%S]: ",
+                                time.localtime()), '重连数据库中...')
             try:
                 conn.close()
             except:
@@ -493,22 +571,24 @@ def DownloadAndUpdate(path, window):
             num += 1
     starttime = time.time()
     if num == 0:
-        print(time.strftime("[%Y-%m-%d %H:%M:%S]: ", time.localtime()), "已经与数据库同步，无需更新！")
+        print(time.strftime("[%Y-%m-%d %H:%M:%S]: ",
+                            time.localtime()), "已经与数据库同步，无需更新！")
         return
     for res in resTuple:
         picurl = res[0]
         picname = picurl.split('/')[-1]
         if picname not in Exist:
             print(time.strftime("[%Y-%m-%d %H:%M:%S]: ",
-                                time.localtime()), "正在下载第 %d / %d 张：%s" % (cnt + 1,num,picname))
-            
+                                time.localtime()), "正在下载第 %d / %d 张：%s" % (cnt + 1, num, picname))
+
             while True:
                 try:
-                    r = requests.get(picurl,timeout=15)
+                    r = requests.get(picurl, timeout=15)
                     # if r.status_codes == 200:
                     break
                 except:
-                    print(time.strftime("[%Y-%m-%d %H:%M:%S]: ", time.localtime()), 'IP被COS禁了，睡眠0.5分钟！')
+                    print(time.strftime(
+                        "[%Y-%m-%d %H:%M:%S]: ", time.localtime()), 'IP被COS禁了，睡眠0.5分钟！')
                     sleep(20)
             with open(path + picname, "wb") as f:
                 f.write(r.content)
@@ -521,14 +601,14 @@ def DownloadAndUpdate(path, window):
                 f.writelines('\n')
                 f.close()
         else:
-            print(time.strftime("[%Y-%m-%d %H:%M:%S]: ", time.localtime()), "正在下载第 %d / %d 张：%s 已经存在！" % (cnt + 1, num,picname))
+            print(time.strftime("[%Y-%m-%d %H:%M:%S]: ", time.localtime()),
+                  "正在下载第 %d / %d 张：%s 已经存在！" % (cnt + 1, num, picname))
             cnt += 1
             window['-DOWNLOADPROGRESS-'].update_bar(100/num * cnt)
             window['-DOWNLOADPROGRESS_NUM-'].update(str(cnt/num * 100) + '%%')
     elapse = time.time() - starttime
     print(time.strftime("[%Y-%m-%d %H:%M:%S]: ",
-                        time.localtime()), "一共下载了 %d 张表情包，总耗时：%.3fs" % (cnt,elapse))
-                        
+                        time.localtime()), "一共下载了 %d 张表情包，总耗时：%.3fs" % (cnt, elapse))
 
 
 def LocalRecognition(path, window):
@@ -544,13 +624,14 @@ def LocalRecognition(path, window):
 
     if not os.path.exists(path + 'result.csv'):
         pd_data = pd.DataFrame([], columns=['name', 'text'])
-        pd_data.to_csv(path + 'result.csv',encoding='gbk')
+        pd_data.to_csv(path + 'result.csv', encoding='utf_8_sig')
 
     img_end = {'jpg', 'bmp', 'png', 'jpeg', 'rgb', 'tif', 'tiff', 'gif', 'GIF'}
-    result = pd.read_csv(path + 'result.csv', encoding='gbk')
+    result = pd.read_csv(path + 'result.csv', encoding='utf_8_sig')
     result_list = result['name'].to_list()
     num = 0
-    print(time.strftime("[%Y-%m-%d %H:%M:%S]: ", time.localtime()), "目录：“%s” 一共有 %d 个文件！" % (path,len(pics)))
+    print(time.strftime("[%Y-%m-%d %H:%M:%S]: ", time.localtime()),
+          "目录：“%s” 一共有 %d 个文件！" % (path, len(pics)))
     try:
         for p in pics:
             if p not in result_list and p.split('.')[-1] in img_end:
@@ -565,9 +646,11 @@ def LocalRecognition(path, window):
                             time.localtime()), "目录：%s 含有没有后缀的文件，直接过滤掉！" % (path))
         pics = [pic for pic in pics if '.' in pic]
         pics = [pic for pic in pics if pic.split('.')[-1] in img_end]
-    
-    print(time.strftime("[%Y-%m-%d %H:%M:%S]: ",time.localtime()), "过滤掉非图片文件后，一共有 %d 个图片！" % (len(pics)))
-    print(time.strftime("[%Y-%m-%d %H:%M:%S]: ", time.localtime()),"此目录还未识别的表情包一共有：%d 张！"%(num))
+
+    print(time.strftime("[%Y-%m-%d %H:%M:%S]: ",
+                        time.localtime()), "过滤掉非图片文件后，一共有 %d 个图片！" % (len(pics)))
+    print(time.strftime("[%Y-%m-%d %H:%M:%S]: ",
+                        time.localtime()), "此目录还未识别的表情包一共有：%d 张！" % (num))
     for p in pics:
         if os.path.isfile(path + p):
             if p not in result_list:
@@ -575,16 +658,17 @@ def LocalRecognition(path, window):
                 starttime = time.time()
                 data = {'images': [cv2_to_base64(img)]}
                 try:
-                    r = requests.post(url=server_url, headers=server_headers, data=json.dumps(data),timeout=30)
+                    r = requests.post(
+                        url=server_url, headers=server_headers, data=json.dumps(data), timeout=30)
                 except:
                     print(time.strftime("[%Y-%m-%d %H:%M:%S]: ", time.localtime()),
-                        "第 %d / %d 个识别项目：%s 识别时，服务器长时间未响应！" % (cnt+1, num, p))
-                    continue                
+                          "第 %d / %d 个识别项目：%s 识别时，服务器长时间未响应！" % (cnt+1, num, p))
+                    continue
 
                 elapse = time.time() - starttime
                 total_time += elapse
                 print(time.strftime(
-                    "[%Y-%m-%d %H:%M:%S]: ", time.localtime()), "第 %d / %d 个识别项目： %s, 识别时间 %.3fs" % (cnt+1,num,p, elapse))
+                    "[%Y-%m-%d %H:%M:%S]: ", time.localtime()), "第 %d / %d 个识别项目： %s, 识别时间 %.3fs" % (cnt+1, num, p, elapse))
                 try:
                     res = r.json()["results"][0]
                 except:
@@ -601,7 +685,7 @@ def LocalRecognition(path, window):
                 window['-RECPROGRESS_2-'].update_bar(100/num * (cnt))
                 window['-RECPROGRESS_NUM_2-'].update(
                     str((cnt) / num * 100) + "%%")
-                result.to_csv(path + 'result.csv', encoding='gbk')
+                result.to_csv(path + 'result.csv', encoding='utf_8_sig')
     try:
         print(time.strftime("[%Y-%m-%d %H:%M:%S]: ", time.localtime()),
               "平均识别时间: {}s".format(float(total_time) / cnt))
@@ -609,8 +693,8 @@ def LocalRecognition(path, window):
               "总共识别时间: {}s".format(float(total_time)))
     except:
         pass
-    print(time.strftime("[%Y-%m-%d %H:%M:%S]: ", time.localtime()), "总共识别了 %d 张表情包." % (cnt))
-    
+    print(time.strftime("[%Y-%m-%d %H:%M:%S]: ",
+                        time.localtime()), "总共识别了 %d 张表情包." % (cnt))
 
 
 def LocalSearch(path, window, key):
@@ -618,7 +702,7 @@ def LocalSearch(path, window, key):
         window['-IMG%s-' % (str(i+1))].update(data=None)
     path = path + '/'
     path = path.replace('/', '//')
-    result = pd.read_csv(path + 'result.csv', encoding='gbk')
+    result = pd.read_csv(path + 'result.csv', encoding='utf_8_sig')
     result = result.fillna('0')
     result_list = result['name'].to_list()
 
@@ -638,7 +722,7 @@ def LocalSearch(path, window, key):
             key_list = key.split(';')
         except:
             key_list = key.split('；')
-            
+
         key_intersection = []
         key_cnt = 0
         for k in key_list:
@@ -658,7 +742,8 @@ def LocalSearch(path, window, key):
     print(time.strftime("[%Y-%m-%d %H:%M:%S]: ", time.localtime()),
           "关键字：'%s' 本地一共找到 %d 张表情包！" % (key, len(key_set)))
     if len(key_set) == 0:
-        print(time.strftime("[%Y-%m-%d %H:%M:%S]: ", time.localtime()),"赶紧更新库存吧，已经不够你秀的了！")
+        print(time.strftime("[%Y-%m-%d %H:%M:%S]: ",
+                            time.localtime()), "赶紧更新库存吧，已经不够你秀的了！")
         return
     cnt = 1
     starttime = time.time()
@@ -671,11 +756,13 @@ def LocalSearch(path, window, key):
         if cnt != 301:
             window['-IMG%s-' % (str(cnt))].update(data=img_str)
         else:
-            print(time.strftime("[%Y-%m-%d %H:%M:%S]: ", time.localtime()), "窗口只能展示300张，超出限制，剩下的等等吧...")
+            print(time.strftime("[%Y-%m-%d %H:%M:%S]: ",
+                                time.localtime()), "窗口只能展示300张，超出限制，剩下的等等吧...")
             break
         cnt += 1
     elapse = time.time() - starttime
-    print(time.strftime("[%Y-%m-%d %H:%M:%S]: ", time.localtime()), "实际展示了 %d 张表情包，展示搜索结果耗时：%.3fs" % (cnt-1, elapse))
+    print(time.strftime("[%Y-%m-%d %H:%M:%S]: ", time.localtime()),
+          "实际展示了 %d 张表情包，展示搜索结果耗时：%.3fs" % (cnt-1, elapse))
 
 
 def ZhihuSpider(path, url, window):
@@ -683,7 +770,8 @@ def ZhihuSpider(path, url, window):
     path = path.replace('/', '//')
     user = User(None)
     starttime = time.time()
-    print(time.strftime("[%Y-%m-%d %H:%M:%S]: ", time.localtime()), "正在启动爬取引擎...")
+    print(time.strftime("[%Y-%m-%d %H:%M:%S]: ",
+                        time.localtime()), "正在启动爬取引擎...")
     inputArg = url.split('\n')[-1]
 
     if inputArg.isdigit():
@@ -704,7 +792,8 @@ def ZhihuSpider(path, url, window):
         user.currentBrowseAnswer.author)
     user.downloadPicList(path, window)
     elapse = time.time() - starttime
-    print(time.strftime("[%Y-%m-%d %H:%M:%S]: ",time.localtime()), "爬取完毕，一共耗时：%.3fs！"% (elapse))
+    print(time.strftime("[%Y-%m-%d %H:%M:%S]: ",
+                        time.localtime()), "爬取完毕，一共耗时：%.3fs！" % (elapse))
 
 
 def second_window():
@@ -734,22 +823,24 @@ def second_window():
                 font=("Noto Serif SC", 25), title_color='RoyalBlue')
         ],
         [
-            sg.Output(size=(120, 10),key='OUTPUT_3',echo_stdout_stderr=True)
+            sg.Output(size=(120, 10), key='OUTPUT_3', echo_stdout_stderr=True)
         ],
         [
             sg.Button('清空输出日志', button_color=('white', 'blue'),
                       key='CLEAR_3', size=(50, 1)),
             sg.Exit('退出', button_color=('white', 'firebrick4'),
-                 key='Exit', size=(50, 1))]
+                    key='Exit', size=(50, 1))]
     ]
     window = sg.Window('知乎回答表情包搜索', layout)
     while True:
         event, values = window.read()
         if event == '-ZHIHUSEARCHBUTTON-':
             if values['-ZHIHUFOLDER-'] != '':
-                threading.Thread(target=ZhihuSpider, args=(values['-ZHIHUFOLDER-'], values['-ZHIHUURL-'], window)).start()
+                threading.Thread(target=ZhihuSpider, args=(
+                    values['-ZHIHUFOLDER-'], values['-ZHIHUURL-'], window)).start()
             else:
-                print(time.strftime("[%Y-%m-%d %H:%M:%S]: ", time.localtime()), "请先选择要存放的表情包目录！")
+                print(time.strftime("[%Y-%m-%d %H:%M:%S]: ",
+                                    time.localtime()), "请先选择要存放的表情包目录！")
         if event == sg.WIN_CLOSED or event == 'Exit':
             break
         if event == 'CLEAR_3':
@@ -827,12 +918,12 @@ def third_window():
         ],
         [sg.Column(col, background_color='papayawhip', size=(
             850, 450), scrollable=True, justification="center", element_justification="center")],
-        [sg.Output(size=(120, 10),key='OUTPUT_2',echo_stdout_stderr=True)],
+        [sg.Output(size=(120, 10), key='OUTPUT_2', echo_stdout_stderr=True)],
         [
             sg.Button('清空输出日志', button_color=('white', 'blue'),
                       key='CLEAR_2', size=(50, 1)),
             sg.Exit('退出', button_color=('white', 'firebrick4'),
-                 key='Exit', size=(50, 1))]
+                    key='Exit', size=(50, 1))]
     ]
     window = sg.Window('本地上传 & 识别 & 搜索', layout)
     IMAGEKEY = ['-IMG' + str(i+1) + '-' for i in range(100)]
@@ -845,19 +936,25 @@ def third_window():
             threading.Thread(target=Copy, args=(window, event)).start()
         if event == '-DOWNLOADBUTTON-':
             if values['-SECONDFOLDER-'] != '':
-                threading.Thread(target=DownloadAndUpdate, args=(values['-SECONDFOLDER-'], window)).start()
+                threading.Thread(target=DownloadAndUpdate, args=(
+                    values['-SECONDFOLDER-'], window)).start()
             else:
-                print(time.strftime("[%Y-%m-%d %H:%M:%S]: ", time.localtime()), "请先选择下载目录！")
+                print(time.strftime("[%Y-%m-%d %H:%M:%S]: ",
+                                    time.localtime()), "请先选择下载目录！")
         if event == '-RECOGNITIONBUTTON-':
             if values['-SECONDFOLDER-'] != '':
-                threading.Thread(target=LocalRecognition, args=(values['-SECONDFOLDER-'], window)).start()
+                threading.Thread(target=LocalRecognition, args=(
+                    values['-SECONDFOLDER-'], window)).start()
             else:
-                print(time.strftime("[%Y-%m-%d %H:%M:%S]: ", time.localtime()), "请先选择要识别的表情包目录！")
+                print(time.strftime("[%Y-%m-%d %H:%M:%S]: ",
+                                    time.localtime()), "请先选择要识别的表情包目录！")
         if event == '-LOCALSEARCHBUTTON-':
             if values['-SECONDFOLDER-'] != '':
-                threading.Thread(target=LocalSearch, args=(values['-SECONDFOLDER-'], window, str(values['-KEY2-']))).start()
+                threading.Thread(target=LocalSearch, args=(
+                    values['-SECONDFOLDER-'], window, str(values['-KEY2-']))).start()
             else:
-                print(time.strftime("[%Y-%m-%d %H:%M:%S]: ", time.localtime()), "请先选择要搜索的表情包目录！")
+                print(time.strftime("[%Y-%m-%d %H:%M:%S]: ",
+                                    time.localtime()), "请先选择要搜索的表情包目录！")
         if event == sg.WIN_CLOSED or event == 'Exit':
             break
         if event == 'CLEAR_2':
@@ -896,12 +993,16 @@ def GUI():
             sg.Image(data=img_title, background_color=None,
                      enable_events=True),
             sg.Text('当前数据库表情包数量：', font=("Noto Serif SC", 12), size=(18, 1)),
-            sg.Text('暂无数据', font=("Noto Serif SC", 16),
-                    relief=sg.RELIEF_RIDGE, key='-EMOJINUM-')
+            sg.Text('暂无数据', font=("Noto Serif SC", 12),
+                    relief=sg.RELIEF_RIDGE, key='-EMOJINUM-', size=(18, 1)),
+            sg.Text('当前在线用户数：', font=("Noto Serif SC", 12), size=(18, 1)),
+            sg.Text('暂无数据', font=("Noto Serif SC", 12),
+                    size=(18, 1), relief=sg.RELIEF_RIDGE, key='-USERNUM-')
         ],
-            [
-                sg.Text('Tips：云端搜索可能较慢，可以使用本地搜索。', font=("Noto Serif SC", 8), size=(40, 1),justification='left')
-            ],
+        [
+            sg.Text('Tips：云端搜索可能较慢，可以使用本地搜索。', font=(
+                "Noto Serif SC", 8), size=(40, 1), justification='left')
+        ],
         # [
         #     sg.Frame(
         #         '知乎表情包爬取：', [
@@ -993,29 +1094,36 @@ def GUI():
         # ],
         [sg.Column(col, background_color='papayawhip', size=(
             850, 300), scrollable=True, justification="center", element_justification="center")],
-        [sg.Output(size=(120, 10),key='OUTPUT_1',echo_stdout_stderr=True)],
+        [sg.Output(size=(120, 10), key='OUTPUT_1', echo_stdout_stderr=True)],
         [
-            sg.Button('清空输出日志', button_color=('white', 'blue'),key='CLEAR_1',size=(50,1)),
+            sg.Button('清空输出日志', button_color=('white', 'blue'),
+                      key='CLEAR_1', size=(50, 1)),
             sg.Exit('退出', button_color=('white', 'firebrick4'),
-                 key='Exit', size=(50, 1))
+                    key='Exit', size=(50, 1))
         ]
     ]
     window = sg.Window('AI Sticker Searcher V1.0', layout,
                        default_element_size=(80, 1), resizable=True, element_justification='center', text_justification='center')
 
-    threading.Thread(target=UpdateEmojiNumber, args=(window,)).start()
     IMAGEKEY = ['-IMG' + str(i+1) + '-' for i in range(100)]
+    threading.Thread(target=OnlineUserNumber, args=(window,)).start()
+    threading.Thread(target=UpdateEmojiNumber, args=(window,)).start()
+
     while True:
         event, values = window.read()
         if event == sg.WIN_CLOSED or event == 'Exit':
+            flag = 0
             break
         if event == '-UPLOAD-':
             if str(values['-FIRSTFOLDER-']) != '':
-                threading.Thread(target=COSUploadAndRecognize, args=(window, str(values['-FIRSTFOLDER-']))).start()
+                threading.Thread(target=COSUploadAndRecognize, args=(
+                    window, str(values['-FIRSTFOLDER-']))).start()
             else:
-                print(time.strftime("[%Y-%m-%d %H:%M:%S]: ", time.localtime()), "请先选择上传目录！")
+                print(time.strftime("[%Y-%m-%d %H:%M:%S]: ",
+                                    time.localtime()), "请先选择上传目录！")
         if event == '-KEYBUTTON_1-':
-            threading.Thread(target=CloudSearch, args=(window, str(values['-KEY1-']))).start()
+            threading.Thread(target=CloudSearch, args=(
+                window, str(values['-KEY1-']))).start()
         if event in IMAGEKEY:
             threading.Thread(target=Copy, args=(window, event)).start()
         # if event == '-DOWNLOADBUTTON-':
@@ -1044,4 +1152,6 @@ def GUI():
 
 if __name__ == "__main__":
     # threading.Thread(target=GUI(),args=()).start()
+    global flag
+    flag = 1
     GUI()
