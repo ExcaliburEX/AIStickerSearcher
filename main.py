@@ -117,6 +117,7 @@ class User(object):
 
 
 def OnlineUserNumber(window):
+    global flag
     old = []
     sleep(5)
     while True:
@@ -161,6 +162,7 @@ def OnlineUserNumber(window):
 
 
 def UpdateEmojiNumber(window):
+    global flag
     while True:
         try:
             while True:
@@ -1112,6 +1114,7 @@ def GUI():
     while True:
         event, values = window.read()
         if event == sg.WIN_CLOSED or event == 'Exit':
+            global flag
             flag = 0
             break
         if event == '-UPLOAD-':
