@@ -65,7 +65,7 @@
 (1366*768分辨率PC机优化版)：
 </b>
 <p align="center">
-<a href= 'https://github.com/ExcaliburEX/AIStickerSearcher/releases/download/V1.0-720p/AIStickerSearcherV1.0_720p.exe'><img src="https://img.shields.io/badge/AIStickerSearcher-V1.0-blue?color=orange&style=for-the-badge" alt="img" width="200px"></a>
+<a href= 'https://github.com/ExcaliburEX/AIStickerSearcher/releases/download/V1.0-720p/AIStickerSearcherV1.0_720p.exe'><img src="https://img.shields.io/badge/AIStickerSearcher-V1.0_720p-blue?color=orange&style=for-the-badge" alt="img" width="200px"></a>
 </p>
 
 
