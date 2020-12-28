@@ -22,7 +22,8 @@
 
 [![GitHub Issues](https://img.shields.io/github/issues/ExcaliburEX/AIStickerSearcher.svg)](https://github.com/ExcaliburEX/AIStickerSearcher)[![GitHub Pull Requests](https://img.shields.io/github/issues-pr/ExcaliburEX/AIStickerSearcher.svg)](https://github.com/ExcaliburEX/AIStickerSearcher/pulls)![forks](https://img.shields.io/github/forks/ExcaliburEX/AIStickerSearcher)![stars](	https://img.shields.io/github/stars/ExcaliburEX/AIStickerSearcher)![repo size](https://img.shields.io/github/repo-size/ExcaliburEX/AIStickerSearcher)[![License](https://img.shields.io/badge/license-MIT-blue.svg)](/LICENSE)
 
-<img alt="GitHub release (latest by date)" src="https://img.shields.io/github/downloads/ExcaliburEX/AIStickerSearcher/latest/total?color=important&style=for-the-badge">
+<img alt="GitHub release (latest by date)" src="https://img.shields.io/github/downloads/ExcaliburEX/AIStickerSearcher/V1.1/total?color=important&style=for-the-badge">
+<img alt="GitHub release (latest by date)" src="https://img.shields.io/github/downloads/ExcaliburEX/AIStickerSearcher/V1.1-720p/total?color=important&style=for-the-badge">
 
 </div>
 
@@ -50,22 +51,23 @@
 - [👩🏻‍💻 本地开发](#%E2%80%8D-%E6%9C%AC%E5%9C%B0%E5%BC%80%E5%8F%91)
 - [☄️ Tips](#-tips)
   - [𝓒𝓱𝓻𝓲𝓼𝓽𝓶𝓪𝓼 𝓰𝓲𝓯𝓽 & 𝓰𝓸𝓸𝓭 𝓷𝓲𝓰𝓱𝓽！](#%F0%9D%93%92%F0%9D%93%B1%F0%9D%93%BB%F0%9D%93%B2%F0%9D%93%BC%F0%9D%93%BD%F0%9D%93%B6%F0%9D%93%AA%F0%9D%93%BC-%F0%9D%93%B0%F0%9D%93%B2%F0%9D%93%AF%F0%9D%93%BD--%F0%9D%93%B0%F0%9D%93%B8%F0%9D%93%B8%F0%9D%93%AD-%F0%9D%93%B7%F0%9D%93%B2%F0%9D%93%B0%F0%9D%93%B1%F0%9D%93%BD)
-
+- [🌤️ 更新日志](#-%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97)
+  - [2020-12-29 —— V1.1](#2020-12-29--v11)
 # 🌃 最新版本
 
 <b align="left">
-下载点击图标下载<font color="red">V1.0</font>版本：
+下载点击图标下载<font color="red">V1.1</font>版本：
 </b>
 <p align="center">
-<a href= 'https://github.com/ExcaliburEX/AIStickerSearcher/releases/download/V1.0/AIStickerSearcherV1.0.exe'><img src="https://img.shields.io/badge/AIStickerSearcher-V1.0-blue?color=ff69b4&style=for-the-badge" alt="img" width="200px"></a>
+<a href= 'https://github.com/ExcaliburEX/AIStickerSearcher/releases/download/V1.1/AIStickerSearcherV1.1.exe'><img src="https://img.shields.io/badge/AIStickerSearcher-V1.1-blue?color=ff69b4&style=for-the-badge" alt="img" width="200px"></a>
 </p>
 
 <b align="left">
-点击图标下载<font color="#0000FF">V1.0</font>版
+点击图标下载<font color="#0000FF">V1.1</font>版
 (1366*768分辨率PC机优化版)：
 </b>
 <p align="center">
-<a href= 'https://github.com/ExcaliburEX/AIStickerSearcher/releases/download/V1.0-720p/AIStickerSearcherV1.0_720p.exe'><img src="https://img.shields.io/badge/AIStickerSearcher-V1.0_720p-blue?color=orange&style=for-the-badge" alt="img" width="200px"></a>
+<a href= 'https://github.com/ExcaliburEX/AIStickerSearcher/releases/download/V1.1-720p/AIStickerSearcherV1.1_720p.exe'><img src="https://img.shields.io/badge/AIStickerSearcher-V1.1_720p-blue?color=orange&style=for-the-badge" alt="img" width="200px"></a>
 </p>
 
 
@@ -155,4 +157,8 @@ pip install -r requirements.txt
 # ☄️ Tips
 ## 𝓒𝓱𝓻𝓲𝓼𝓽𝓶𝓪𝓼 𝓰𝓲𝓯𝓽 & 𝓰𝓸𝓸𝓭 𝓷𝓲𝓰𝓱𝓽！
 
+# 🌤️ 更新日志
+## 2020-12-29 —— [V1.1](https://github.com/ExcaliburEX/AIStickerSearcher/releases/tag/V1.1)
+- [x] 显示在线用户数
+- [x] 查看当前有哪些用户
 
