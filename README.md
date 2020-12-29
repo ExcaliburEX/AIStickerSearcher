@@ -161,4 +161,6 @@ pip install -r requirements.txt
 ## 2020-12-29 —— [V1.1](https://github.com/ExcaliburEX/AIStickerSearcher/releases/tag/V1.1)
 - [x] 显示在线用户数
 - [x] 查看当前有哪些用户
+- [x] 增加`运气一下`，随机搜索三张表情包
+- [x] 修复点击空白图片报错 
 

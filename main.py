@@ -605,7 +605,7 @@ def CloudSearch(window, key):
                     break
                 except:
                     print(time.strftime(
-                        "[%Y-%m-%d %H:%M:%S]: ", time.localtime()), 'IP被SM.MS禁了，睡眠0.5分钟！')
+                        "[%Y-%m-%d %H:%M:%S]: ", time.localtime()), 'IP被COS禁了，睡眠0.5分钟！')
                     sleep(20)
             image = Image.open(BytesIO(r.content))
             image = image.resize((250, 250))
@@ -963,6 +963,64 @@ def Copy(window, event):
         print(time.strftime("[%Y-%m-%d %H:%M:%S]: ",
                             time.localtime()), "这里没有表情包哦~")
 
+def RandomSearch(window):
+    for i in range(100):
+        window['-IMG%s-' % (str(i+1))].update(data=None)
+
+    while True:
+        try:
+            conn = pymysql.connect(
+                '47.96.189.80', user="root", passwd="189154", db="EmojiPic")
+            break
+        except:
+            print(time.strftime("[%Y-%m-%d %H:%M:%S]: ",
+                                time.localtime()), '重连数据库中...')
+            try:
+                conn.close()
+            except:
+                pass
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM `EMOJITEXT` ORDER BY RAND() LIMIT 3;")
+    resTuple = cur.fetchall()
+    key_set = [r[0] for r in resTuple]
+    cur.close()
+    conn.close()
+    cnt = 1
+    starttime = time.time()
+    for k in key_set:
+        print(time.strftime("[%Y-%m-%d %H:%M:%S]: ", time.localtime()),
+              '正在展示第 %d / %d 张: %s ...' % (cnt, len(key_set), k.split('/')[-1]))
+        try:
+            while True:
+                try:
+                    r = requests.get(k, timeout=15)
+                    # if r.status_codes == 200:
+                    break
+                except:
+                    print(time.strftime(
+                        "[%Y-%m-%d %H:%M:%S]: ", time.localtime()), 'IP被COS禁了，睡眠0.5分钟！')
+                    sleep(20)
+            image = Image.open(BytesIO(r.content))
+            image = image.resize((250, 250))
+            buffered = BytesIO()
+            image.save(buffered, format="PNG")
+            img_str = base64.b64encode(buffered.getvalue())
+        except:
+            print(time.strftime(
+                "[%Y-%m-%d %H:%M:%S]: ", time.localtime()), '由于某些原因，%s 已从网络端删除或者获取不到...' % (k))
+            cnt += 1
+            continue
+        if cnt != 301:
+            window['-IMG%s-' % (str(cnt))].update(data=img_str)
+        else:
+            print(time.strftime("[%Y-%m-%d %H:%M:%S]: ",
+                                time.localtime()), "窗口只能展示300张，超出限制，剩下的等等吧...")
+            break
+        cnt += 1
+    elapse = time.time() - starttime
+    # print(time.strftime("[%Y-%m-%d %H:%M:%S]: ", time.localtime()),'一共耗时：%.3fs'%(elapse))
+    print(time.strftime("[%Y-%m-%d %H:%M:%S]: ", time.localtime()),
+          "随机3张表情包，送给亲爱的TA，展示搜索结果耗时：%.3fs" % (elapse))
 
 def third_window():
     col = []
@@ -1151,7 +1209,11 @@ def GUI():
             ],
             [
                 sg.Text('搜索规则：\n1.直接搜索; \n 2.多关键字添加："," 为‘或’的关系，如"你好,我是"，就是包含"你好"或者"我是"都展示; \n 3.多关键字添加：";" 为‘并’的关系，如"你好;我是"，即包含"你好"并且有"我是"才展示.',
-                        justification='left', font=("Noto Serif SC", 10))
+                        justification='left', font=("Noto Serif SC", 10)),
+                sg.Text('                                '),
+                sg.Button('运气一下', font=("Noto Serif SC", 12),
+                          size=(15, 1), key='-KEYBUTTON_RANDOM-', button_color=('MintCream', 'Purple'))
+
             ],
         ],
             font=("Noto Serif SC", 20), title_color='DarkRed')
@@ -1231,6 +1293,9 @@ def GUI():
         if event == '-KEYBUTTON_1-':
             threading.Thread(target=CloudSearch, args=(
                 window, str(values['-KEY1-']))).start()
+        if event == '-KEYBUTTON_RANDOM-':
+            threading.Thread(target=RandomSearch, args=(
+                window, )).start()
         if event in IMAGEKEY:
             threading.Thread(target=Copy, args=(window, event)).start()
         # if event == '-DOWNLOADBUTTON-':
