@@ -1117,7 +1117,7 @@ def third_window():
                     'Azure', 'Crimson'))
              ],
             [
-                 sg.Button('运气一下', font=("Noto Serif SC", 12),
+                 sg.Button('运气一下', font=("KaiTi", 12),
                            size=(105, 1), key='-LOCALRANDOMSEARCHBUTTON-', button_color=(
                      'Azure', 'SteelBlue'))
              ]
