@@ -946,18 +946,22 @@ def second_window():
 
 
 def Copy(window, event):
-    image_base64 = window[event].Widget.image.cget('data')
-    img = b64decode(image_base64)
-    buf = BytesIO(img)
-    im = Image.open(buf)
-    output = BytesIO()
-    im.save(output, 'BMP')
-    data = output.getvalue()[14:]
-    output.close()
-    clip.OpenClipboard()  # 打开剪贴板
-    clip.EmptyClipboard()  # 先清空剪贴板
-    clip.SetClipboardData(win32con.CF_DIB, data)  # 将图片放入剪贴板
-    clip.CloseClipboard()
+    try:
+        image_base64 = window[event].Widget.image.cget('data')
+        img = b64decode(image_base64)
+        buf = BytesIO(img)
+        im = Image.open(buf)
+        output = BytesIO()
+        im.save(output, 'BMP')
+        data = output.getvalue()[14:]
+        output.close()
+        clip.OpenClipboard()  # 打开剪贴板
+        clip.EmptyClipboard()  # 先清空剪贴板
+        clip.SetClipboardData(win32con.CF_DIB, data)  # 将图片放入剪贴板
+        clip.CloseClipboard()
+    except:
+        print(time.strftime("[%Y-%m-%d %H:%M:%S]: ",
+                            time.localtime()), "这里没有表情包哦~")
 
 
 def third_window():
