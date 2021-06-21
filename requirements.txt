@@ -6,4 +6,5 @@ pandas==1.1.3
 pywin32==227
 Pillow==8.0.1
 PySimpleGUI==4.32.1
+fsspec
 

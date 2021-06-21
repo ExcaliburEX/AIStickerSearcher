@@ -13,7 +13,7 @@
   <img width=220 height=200 src="https://i.loli.net/2021/06/21/AD7wuI8VC2FqzLg.png" alt="Python GUIs for Humans">
   <h2 align="center">AI Sticker Searcher</h2>
   <h3 align="center">最新版下载</h3>
-  <h3 align="center"><img alt="GitHub release (latest by date)" src="https://img.shields.io/github/downloads/ExcaliburEX/AIStickerSearcher/V1.2/total?color=success&flat-square&logo=Cachet"></h3>
+  <h3 align="center"><a href= 'https://github.com/ExcaliburEX/AIStickerSearcher/releases/download/V1.2/AIStickerSearcherV1.2.exe'><img alt="GitHub release (latest by date)" src="https://img.shields.io/github/downloads/ExcaliburEX/AIStickerSearcher/V1.2/total?color=success&flat-square&logo=Cachet"></a></h3>
 </p>
 
 
@@ -25,8 +25,8 @@
 [![GitHub Issues](https://img.shields.io/github/issues/ExcaliburEX/AIStickerSearcher.svg)](https://github.com/ExcaliburEX/AIStickerSearcher)[![GitHub Pull Requests](https://img.shields.io/github/issues-pr/ExcaliburEX/AIStickerSearcher.svg)](https://github.com/ExcaliburEX/AIStickerSearcher/pulls)![forks](https://img.shields.io/github/forks/ExcaliburEX/AIStickerSearcher)![stars](	https://img.shields.io/github/stars/ExcaliburEX/AIStickerSearcher)![repo size](https://img.shields.io/github/repo-size/ExcaliburEX/AIStickerSearcher)[![License](https://img.shields.io/badge/license-MIT-blue.svg)](/LICENSE)
 
 <p align="center"><h3 align="center">V1.1旧版</h3></p>
-<img alt="GitHub release (latest by date)" src="https://img.shields.io/github/downloads/ExcaliburEX/AIStickerSearcher/V1.1/total?color=important&style=for-the-badge">
-<img alt="GitHub release (latest by date)" src="https://img.shields.io/github/downloads/ExcaliburEX/AIStickerSearcher/V1.1-720p/total?color=important&style=for-the-badge">
+<a href= 'https://github.com/ExcaliburEX/AIStickerSearcher/releases/download/V1.1/AIStickerSearcherV1.1.exe'><img alt="GitHub release (latest by date)" src="https://img.shields.io/github/downloads/ExcaliburEX/AIStickerSearcher/V1.1/total?color=important&style=for-the-badge"></a>
+<a href= 'https://github.com/ExcaliburEX/AIStickerSearcher/releases/download/V1.1-720p/AIStickerSearcherV1.1_720.exe'><img alt="GitHub release (latest by date)" src="https://img.shields.io/github/downloads/ExcaliburEX/AIStickerSearcher/V1.1-720p/total?color=important&style=for-the-badge"></a>
 
 </div>
 
